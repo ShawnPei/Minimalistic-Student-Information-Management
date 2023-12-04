@@ -11,7 +11,8 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 
-import {Breadcrumb, Layout, Menu, Table, theme} from 'antd';
+import {Breadcrumb, Empty, Layout, Menu, Spin, Table, theme} from 'antd';
+
 //Variables for the Layout
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -59,6 +60,10 @@ const columns = [
 ];
 
 function App() {
+    //This code is used to show the loading icon
+    //The initial state is fetching, so the loading icon will show
+    const[fetching, setFetching] = useState(true);
+
     //This line is using the useState hook to create a state variable collapsed
     //The inital state is false, not collapse
     const [collapsed, setCollapsed] = useState(false);
@@ -72,7 +77,6 @@ function App() {
     const [students, setStudents] = useState([]);
     //This is a function that fetches student data from an API.
     // It uses the getAllStudents function to get the data. Once the data is received,
-
     const fetchStudents = () => {
         getAllStudents()
             // it is converted to JSON
@@ -82,6 +86,7 @@ function App() {
                     console.log(data);
                     // The data is also set to the students state using the setStudents function.
                     setStudents(data)
+                    setFetching(false)
                 }
             );
     }
@@ -95,10 +100,25 @@ function App() {
 
     //for rendering the student
     const renderStudents = () => {
-        if (students.length <= 0) {
-            return <div>No students!</div>
+        if(fetching){//if fetching is true, show the icon
+            return <Spin />
         }
-        return <Table dataSource={students} columns={columns}/>
+        if (students.length <= 0) {
+            return <Empty/>
+        }
+        return <Table
+            dataSource={students}
+            columns={columns}
+            bordered
+            title={() => 'Students'}
+            pagination={{
+                pageSize: 50,
+            }}
+            scroll={{
+                y: 240,
+            }}
+            rowKey={(student) => student.id}
+        />
     }
     return (
         <Layout
@@ -140,6 +160,15 @@ function App() {
                         {renderStudents()}
                     </div>
                 </Content>
+                <footer>
+                    <Footer
+                        style={{
+                            textAlign: 'center',
+                        }}
+                    >
+                        by Xiongyu Pei
+                    </Footer>
+                </footer>
 
             </Layout>
         </Layout>
