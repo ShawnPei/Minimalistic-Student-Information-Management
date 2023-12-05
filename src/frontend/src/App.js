@@ -1,5 +1,5 @@
 import './App.css';
-import {getAllStudents} from "./client"; //for the getAllStudents function
+import {deleteStudent, getAllStudents, updateStudent} from "./client"; //for the getAllStudents function
 import {useEffect, useState} from 'react'; //prevent to show 2 times the same message
 
 //dependencies for the Layout
@@ -8,9 +8,25 @@ import {
     UserOutlined
 } from '@ant-design/icons';
 
-import {Breadcrumb, Button, Empty, Layout, Menu, Spin, Table, theme} from 'antd';
+import {
+    Avatar,
+    Badge,
+    Breadcrumb,
+    Radio,
+    Button,
+    Empty,
+    Layout,
+    Menu,
+    Space,
+    Spin,
+    Table,
+    Tag,
+    theme,
+    Popconfirm
+} from 'antd';
 
 import StudentDrawerForm from "./StudentDrawerForm";
+import {successNotification} from "./Notification";
 
 //Variables for the Layout
 const {Header, Content, Footer, Sider} = Layout;
@@ -34,8 +50,26 @@ const items = [
     // getItem('Files', '9', <FileOutlined/>),
 ];
 
+const TheAvatar = ({name}) => {
+    let trim = name.trim();
+    if (trim.length === 0) {
+        return <Avatar icon={<UserOutlined/>}/>
+    }
+    const split = trim.split(" ");
+    if (split.length === 1) {
+        return <Avatar>{name.charAt(0)}</Avatar>
+    }
+    return <Avatar>{`${name.charAt(0)}${name.charAt(name.length - 1)}`}</Avatar>
+}
 //for displaying the data
-const columns = [
+const columns = fetchStudents => [
+    {
+        title: '',
+        dataIndex: 'avatar',
+        key: 'avatar',
+        render: (text,student) =>
+            <TheAvatar name={student.name} />,
+    },
     {
         title: 'Id',
         dataIndex: 'id',
@@ -55,6 +89,30 @@ const columns = [
         title: 'Gender',
         dataIndex: 'gender',
         key: 'gender',
+    },
+    {
+        title: 'Actions',
+        dataIndex: 'actions',
+        key: 'actions',
+        render: (text, student) => (
+            <Space size="middle">
+                <Popconfirm
+                    placement="topRight"
+                    title={`Are you sure to delete student ${student.name} ?`}
+                    onConfirm={() => {
+                        deleteStudent(student.id)
+                            .then(() => {
+                                successNotification("Student deleted", `${student.name} was deleted`)
+                                fetchStudents()
+                            })
+                    }}
+                    okText="Yes"
+                    cancelText="No">
+                    <Radio.Button type="secondary">Delete</Radio.Button>
+                </Popconfirm>
+                <Radio.Button type="secondary" onClick={() => updateStudent(student)}>Edit</Radio.Button>
+            </Space>
+        ),
     }
 ];
 
@@ -62,14 +120,11 @@ function App() {
     //This code is used to show the loading icon
     //The initial state is fetching, so the loading icon will show
     const [fetching, setFetching] = useState(true);
-
     //This line is using the useState hook to create a state variable collapsed
     //The inital state is false, not collapse
     const [collapsed, setCollapsed] = useState(false);
     const [showDrawer, setShowDrawer] = useState(false);
-    const {
-        token: {colorBgContainer},
-    } = theme.useToken();
+    const {token: {colorBgContainer}} = theme.useToken();
 
     // This line is using the useState hook to create a state variable students
     // and a function setStudents to update that state.
@@ -99,6 +154,17 @@ function App() {
     }, []); //prevent to show 2 times the same message
 
 
+    const renderActions = (text, record) => (
+        <Space size="middle">
+            <Button type="secondary" onClick={() => {
+                deleteStudent(record.id)
+                    .then(() => fetchStudents())
+                    .catch(err => console.error(err));
+            }}>Delete</Button>
+            <Button type="secondary" onClick={() => updateStudent(record)}>Edit</Button>
+        </Space>
+    );
+
     //for rendering the student
     const renderStudents = () => {
         if (fetching) {//if fetching is true, show the icon
@@ -115,14 +181,29 @@ function App() {
             />
             <Table
                 dataSource={students}
-                columns={columns}
+                columns={columns(fetchStudents)}
                 bordered
                 title={() =>
-                    <Button
-                        onClick={() => setShowDrawer(!showDrawer)}
-                        type="primary" icon={<PlusOutlined/>} size='medium'>
-                        Add New Student
-                    </Button>}
+                    <>
+                        <Button
+                            onClick={() => setShowDrawer(!showDrawer)}
+                            type="primary" icon={<PlusOutlined/>} size='medium'>
+                            Add New Student
+                        </Button>
+
+                        <Tag style={{marginLeft: 10}}>Number of students</Tag>
+                        <Badge
+                            className="site-badge-count-109"
+                            count={students.length ? students.length : 0}
+                            style={{
+                                marginLeft: 10,
+                                backgroundColor: '#7CB9E8',
+                                color: 'ghostwhite',
+                            }}
+                        />
+
+                    </>
+                }
                 pagination={{
                     pageSize: 50,
                 }}

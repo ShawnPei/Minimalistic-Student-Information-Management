@@ -20,3 +20,20 @@ export const addNewStudent = student =>
         method: "POST",
         body: JSON.stringify(student)
     })
+
+export const deleteStudent = studentId =>
+    fetch(`api/v1/students/${studentId}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: "DELETE",
+    })
+
+export const updateStudent = student =>
+    fetch("api/v1/students", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(student)
+    })
