@@ -4,14 +4,13 @@ import {useEffect, useState} from 'react'; //prevent to show 2 times the same me
 
 //dependencies for the Layout
 import {
-    DesktopOutlined,
-    FileOutlined,
-    PieChartOutlined,
-    TeamOutlined,
-    UserOutlined,
+    PlusOutlined,
+    UserOutlined
 } from '@ant-design/icons';
 
-import {Breadcrumb, Empty, Layout, Menu, Spin, Table, theme} from 'antd';
+import {Breadcrumb, Button, Empty, Layout, Menu, Spin, Table, theme} from 'antd';
+
+import StudentDrawerForm from "./StudentDrawerForm";
 
 //Variables for the Layout
 const {Header, Content, Footer, Sider} = Layout;
@@ -62,11 +61,12 @@ const columns = [
 function App() {
     //This code is used to show the loading icon
     //The initial state is fetching, so the loading icon will show
-    const[fetching, setFetching] = useState(true);
+    const [fetching, setFetching] = useState(true);
 
     //This line is using the useState hook to create a state variable collapsed
     //The inital state is false, not collapse
     const [collapsed, setCollapsed] = useState(false);
+    const [showDrawer, setShowDrawer] = useState(false);
     const {
         token: {colorBgContainer},
     } = theme.useToken();
@@ -98,27 +98,41 @@ function App() {
         fetchStudents();
     }, []); //prevent to show 2 times the same message
 
+
     //for rendering the student
     const renderStudents = () => {
-        if(fetching){//if fetching is true, show the icon
-            return <Spin />
+        if (fetching) {//if fetching is true, show the icon
+            return <Spin/>
         }
-        if (students.length <= 0) {
-            return <Empty/>
-        }
-        return <Table
-            dataSource={students}
-            columns={columns}
-            bordered
-            title={() => 'Students'}
-            pagination={{
-                pageSize: 50,
-            }}
-            scroll={{
-                y: 600,
-            }}
-            rowKey={(student) => student.id}
-        />
+        // if (students.length <= 0) {
+        //     return <Empty/>
+        // }
+        return <>
+            <StudentDrawerForm
+                showDrawer={showDrawer}
+                setShowDrawer={setShowDrawer}
+                fetchStudents={fetchStudents}
+            />
+            <Table
+                dataSource={students}
+                columns={columns}
+                bordered
+                title={() =>
+                    <Button
+                        onClick={() => setShowDrawer(!showDrawer)}
+                        type="primary" icon={<PlusOutlined/>} size='medium'>
+                        Add New Student
+                    </Button>}
+                pagination={{
+                    pageSize: 50,
+                }}
+                scroll={{
+                    y: 600,
+                }}
+                rowKey={(student) => student.id}
+            />
+        </>
+
     }
     return (
         <Layout
