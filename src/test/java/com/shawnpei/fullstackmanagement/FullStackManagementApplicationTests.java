@@ -10,6 +10,7 @@ class FullStackManagementApplicationTests {
     @Test
     void contextLoads() {
 //        Assertions.fail("Oops tests failed");
+        System.out.println(1);
     }
 
 }
