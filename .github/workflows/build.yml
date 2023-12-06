@@ -18,7 +18,8 @@ jobs:
         runs-on: ubuntu-latest
         services:
           postgres:
-            image: postgres: 15.4
+            image:
+              postgres: ${{ env.POSTGRESQL_VERSION }}
             env:
               POSTGRES_DB: ${{ env.POSTGRES_DB }}
               POSTGRES_USER: ${{ env.POSTGRES_USER }}
