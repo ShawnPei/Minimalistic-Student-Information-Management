@@ -26,7 +26,7 @@ import {
 } from 'antd';
 
 import StudentDrawerForm from "./StudentDrawerForm";
-import {successNotification} from "./Notification";
+import {errorNotification, successNotification} from "./Notification";
 
 //Variables for the Layout
 const {Header, Content, Footer, Sider} = Layout;
@@ -67,8 +67,8 @@ const columns = fetchStudents => [
         title: '',
         dataIndex: 'avatar',
         key: 'avatar',
-        render: (text,student) =>
-            <TheAvatar name={student.name} />,
+        render: (text, student) =>
+            <TheAvatar name={student.name}/>,
     },
     {
         title: 'Id',
@@ -104,7 +104,17 @@ const columns = fetchStudents => [
                             .then(() => {
                                 successNotification("Student deleted", `${student.name} was deleted`)
                                 fetchStudents()
+                            }).catch(err => {
+                            console.log(err.response);
+                            err.response.json().then(res => {
+                                console.log(res);
+                                errorNotification(
+                                    "There was an issue",
+                                    `${res.message} [${res.status}] [${res.error}]`,
+                                    "bottomLeft"
+                                )
                             })
+                        })
                     }}
                     okText="Yes"
                     cancelText="No">
@@ -141,9 +151,17 @@ function App() {
                     console.log(data);
                     // The data is also set to the students state using the setStudents function.
                     setStudents(data)
-                    setFetching(false)
                 }
-            );
+            ).catch(err => {
+            console.log(err.response);
+            err.response.json().then(res => {
+                console.log(res);
+                errorNotification(
+                    "There was an issue",
+                    `${res.message} [${res.status}] [${res.error}]`,
+                )
+            })
+        }).finally(() => setFetching(false))
     }
     //The function passed to useEffect will run after the component's first render,
     // and every time the component re-renders if any values in the dependency array (the second argument to useEffect) change.
@@ -153,17 +171,6 @@ function App() {
         fetchStudents();
     }, []); //prevent to show 2 times the same message
 
-
-    const renderActions = (text, record) => (
-        <Space size="middle">
-            <Button type="secondary" onClick={() => {
-                deleteStudent(record.id)
-                    .then(() => fetchStudents())
-                    .catch(err => console.error(err));
-            }}>Delete</Button>
-            <Button type="secondary" onClick={() => updateStudent(record)}>Edit</Button>
-        </Space>
-    );
 
     //for rendering the student
     const renderStudents = () => {

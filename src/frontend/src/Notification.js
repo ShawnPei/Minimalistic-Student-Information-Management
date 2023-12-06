@@ -1,24 +1,21 @@
 import React from 'react';
-import {SmileOutlined} from '@ant-design/icons';
+import {ExclamationCircleOutlined, SmileOutlined} from '@ant-design/icons';
 import {Button, message, notification} from 'antd';
 
-const openNotification = (type, msg, description) => {
-    notification[type]({
-        message:msg,
-        description,
-        icon: <SmileOutlined style={{color: '#108ee9'}}/>,
-    });
+const openNotification = (type, message, description,placement) => {
+    placement = placement ||'topRight'
+    notification[type]({message, description, placement});
 }
 
-export const successNotification = (type, msg, description) => {
-    openNotification('success', msg, description)
+export const successNotification = (msg, description,placement) => {
+    openNotification('success', msg, description,placement)
 }
-export const errorNotification = (type, msg, description) => {
-    openNotification('error', msg, description)
+export const errorNotification = (msg, description,placement) => {
+    openNotification('error', msg, description,placement)
 }
-export const infoNotification = (type, msg, description) => {
-    openNotification('info', msg, description)
+export const infoNotification = (msg, description,placement) => {
+    openNotification('info', msg, description,placement)
 }
-export const warningNotification = (type, msg, description) => {
-    openNotification('warning', msg, description)
+export const warningNotification = (msg, description,placement) => {
+    openNotification('warning', msg, description,placement)
 }

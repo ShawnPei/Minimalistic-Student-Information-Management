@@ -15,6 +15,7 @@ import java.util.List;
 public class StudentController {
 
     private final StudentService studentService;
+
     @GetMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
