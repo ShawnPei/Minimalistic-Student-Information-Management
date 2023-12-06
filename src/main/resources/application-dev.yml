@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://awseb-e-iydnxpj8jh-stack-awsebrdsdatabase-naw92i4odgta.celhxsgqddme.us-east-1.rds.amazonaws.com:5432/shawnpei
+    username: ebroot
+    password: Pxy21818768!
+  jpa:
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      format_sql: true
+      ddl-auto: update
+    show-sql: true
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
