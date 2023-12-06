@@ -25,20 +25,14 @@ function StudentDrawerForm({showDrawer, setShowDrawer,fetchStudents}) {
                 fetchStudents();
             }).catch(err => {
             console.log(err);
-            let errorMessage = "An unexpected error occurred.";
-            if (err.response && typeof err.response.json === 'function') {
-                err.response.json().then(res => {
-                    console.log(res);
-                    errorMessage = `${res.message} [${res.status}] [${res.error}]`;
-                }).catch(jsonError => {
-                    console.log("Error parsing error response as JSON:", jsonError);
-                });
-            }
-            errorNotification(
-                "There was an issue",
-                errorMessage,
-                "bottomLeft"
-            )
+            err.response.json().then(res => {
+                console.log(res);
+                errorNotification(
+                    "There was an issue",
+                    `${res.message} [${res.status}] [${res.error}]`,
+                    "bottomLeft"
+                )
+            })
         }).finally(() => {
                     setSubmitting(false);
                 }

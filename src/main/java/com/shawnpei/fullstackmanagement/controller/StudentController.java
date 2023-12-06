@@ -2,6 +2,7 @@ package com.shawnpei.fullstackmanagement.controller;
 
 import com.shawnpei.fullstackmanagement.pojo.Student;
 import com.shawnpei.fullstackmanagement.service.StudentService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public void addStudent(@RequestBody Student student) {
+    public void addStudent(@Valid @RequestBody Student student) {
         studentService.addStudent(student);
     }
 
