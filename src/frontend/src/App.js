@@ -22,7 +22,7 @@ import {
     Table,
     Tag,
     theme,
-    Popconfirm
+    Popconfirm, Divider
 } from 'antd';
 
 import StudentDrawerForm from "./StudentDrawerForm";
@@ -268,7 +268,8 @@ function App() {
                             textAlign: 'center',
                         }}
                     >
-                        by Xiongyu Pei
+                        <Divider>by Xiongyu Pei</Divider>
+
                     </Footer>
                 </footer>
 
