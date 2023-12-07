@@ -73,6 +73,7 @@ jobs:
           status: ${{ job.status }}
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
           text: ':white_check_mark: pushed shawnpei/minimalistic-student-information-management:${{steps.build-number.outputs.BUILD_NUMBER}} to docker hub... https://hub.docker.com/repository/docker/shawnpei/minimalistic-student-information-management'
+          distribution: 'adopt'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           CI: false
