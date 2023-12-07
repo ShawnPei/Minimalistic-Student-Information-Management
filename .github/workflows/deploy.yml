@@ -84,7 +84,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           CI: false
-      - name: Update and commit app version in docker-compose.yaml
+      - name: Update and commit app version in docker-compose.yml
         run: |
           BUILD_NUMBER=${{steps.build-number.outputs.BUILD_NUMBER}}
           echo -e "Current elasticbeanstalk/docker-compose.yml\n$(cat elasticbeanstalk/docker-compose.yml)"
@@ -96,7 +96,7 @@ jobs:
           git commit -m "new app version: ${BUILD_NUMBER}"
           git push origin HEAD:master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }
 
       - uses: 8398a7/action-slack@v3
         with:
