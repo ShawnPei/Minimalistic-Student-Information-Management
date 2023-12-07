@@ -268,7 +268,7 @@ function App() {
                             textAlign: 'center',
                         }}
                     >
-                        <Divider> by Xiongyu Pei </Divider>
+                        <Divider>by Xiongyu Pei</Divider>
                     </Footer>
                 </footer>
 
