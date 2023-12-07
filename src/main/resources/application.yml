@@ -9,6 +9,8 @@ spring:
       format_sql: true
       ddl-auto: update
     show-sql: true
+  profiles:
+    active: dev
 server:
   error:
     include-message: always
