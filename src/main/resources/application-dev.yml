@@ -13,6 +13,7 @@ spring:
   config:
     activate:
       on-profile: dev
+
 server:
   error:
     include-message: always
