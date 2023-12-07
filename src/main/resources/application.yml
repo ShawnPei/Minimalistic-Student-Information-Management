@@ -3,8 +3,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/shawnpei
     username: postgres
     password: password
-  profiles:
-    active: dev
   jpa:
     hibernate:
       dialect: org.hibernate.dialect.PostgreSQLDialect
