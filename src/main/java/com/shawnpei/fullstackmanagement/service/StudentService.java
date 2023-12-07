@@ -44,4 +44,12 @@ public class StudentService {
     }
 
 
+    public void updateStudent(Long id, Student student) {
+        //check if student exists
+        if (!studentRepository.existsById(id)) {
+            throw new StudentNotFoundException(
+                    "Student with id " + id + " does not exist");
+        }
+        studentRepository.update(student);
+    }
 }

@@ -1,42 +1,82 @@
 import {Button, Col, Drawer, Form, Input, Row, Select, Space,Spin} from "antd";
-import {addNewStudent} from "./client";
-import {useState} from "react";
+import {addNewStudent, updateStudent} from "./client";
+import {useEffect, useState} from "react";
 import {LoadingOutlined} from "@ant-design/icons";
 import {successNotification, errorNotification} from "./Notification";
 const {Option} = Select;
 
 
-function StudentDrawerForm({showDrawer, setShowDrawer,fetchStudents}) {
+function StudentDrawerForm({showDrawer, setShowDrawer,fetchStudents,editingStudent,setEditingStudent}) {
     const [form] = Form.useForm();
     const [submitting, setSubmitting] = useState(false)
     const onClose = () => setShowDrawer(false);
 
+    useEffect(() => {
+        if (editingStudent) {
+            form.setFieldsValue({
+                name: editingStudent.name,
+                email: editingStudent.email,
+                gender: editingStudent.gender
+            });
+        } else {
+            form.resetFields();
+        }
+    }, [editingStudent, form]);
+
     const onFinish = student => {
-        console.log(JSON.stringify(student, null, 2))
+        // console.log(JSON.stringify(student, null, 2))
         setSubmitting(true)
-        form.resetFields()
-        addNewStudent(student)
-            .then(() => {
-                console.log("Student Added")
-                successNotification(
-                    "Student Added",
-                    `${student.name} was added to the system`
-                )
-                fetchStudents();
-            }).catch(err => {
-            console.log(err);
-            err.response.json().then(res => {
-                console.log(res);
-                errorNotification(
-                    "There was an issue",
-                    `${res.message} [${res.status}] [${res.error}]`,
-                    "bottomLeft"
-                )
-            })
-        }).finally(() => {
+        form.resetFields();
+        if (editingStudent) {
+
+            updateStudent({...editingStudent, ...student})
+                .then(() => {
+
+                    successNotification(
+                        "Student updated",
+                        `${student.name} was updated in the system`
+                    )
+                    fetchStudents();
+                    setEditingStudent(null);
+                }).catch(err => {
+                // handle error
+                console.log(err);
+                err.response.json().then(res => {
+                    console.log(res);
+                    errorNotification(
+                        "There was an issue",
+                        `${res.message} [${res.status}] [${res.error}]`,
+                        "bottomLeft"
+                    )
+                })
+            }).finally(() => {
                 setSubmitting(false);
-            }
-        )
+            })
+        }else{
+            addNewStudent(student)
+                .then(() => {
+                    console.log("Student Added")
+                    successNotification(
+                        "Student Added",
+                        `${student.name} was added to the system`
+                    )
+                    fetchStudents();
+                }).catch(err => {
+                console.log(err);
+                err.response.json().then(res => {
+                    console.log(res);
+                    errorNotification(
+                        "There was an issue",
+                        `${res.message} [${res.status}] [${res.error}]`,
+                        "bottomLeft"
+                    )
+                })
+            }).finally(() => {
+                    setSubmitting(false);
+                }
+            )
+        }
+
     };
 
     const onFinishFailed = errorInfo => {

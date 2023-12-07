@@ -61,7 +61,7 @@ const TheAvatar = ({name}) => {
     return <Avatar>{`${name.charAt(0)}${name.charAt(name.length - 1)}`}</Avatar>
 }
 //for displaying the data
-const columns = fetchStudents => [
+const columns = (fetchStudents, setEditingStudent,setShowDrawer) => [
     {
         title: '',
         dataIndex: 'avatar',
@@ -119,7 +119,10 @@ const columns = fetchStudents => [
                     cancelText="No">
                     <Radio.Button type="secondary">Delete</Radio.Button>
                 </Popconfirm>
-                <Radio.Button type="secondary" onClick={() => updateStudent(student)}>Edit</Radio.Button>
+                <Radio.Button type="secondary" onClick={() => {
+                    setEditingStudent(student)
+                    setShowDrawer(true);
+                }}>Edit</Radio.Button>
             </Space>
         ),
     }
@@ -139,6 +142,10 @@ function App() {
     // and a function setStudents to update that state.
     // The initial value of students is an empty array []
     const [students, setStudents] = useState([]);
+
+    //for updating the student
+    const [editingStudent, setEditingStudent] = useState(null);
+
     //This is a function that fetches student data from an API.
     // It uses the getAllStudents function to get the data. Once the data is received,
     const fetchStudents = () => {
@@ -184,10 +191,12 @@ function App() {
                 showDrawer={showDrawer}
                 setShowDrawer={setShowDrawer}
                 fetchStudents={fetchStudents}
+                editingStudent={editingStudent}
+                setEditingStudent={setEditingStudent}
             />
             <Table
                 dataSource={students}
-                columns={columns(fetchStudents)}
+                columns={columns(fetchStudents,setEditingStudent,setShowDrawer)}
                 bordered
                 title={() =>
                     <>
