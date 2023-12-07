@@ -269,7 +269,6 @@ function App() {
                         }}
                     >
                         <Divider>by Xiongyu Pei</Divider>
-                    {/*    */}
                     </Footer>
                 </footer>
 
