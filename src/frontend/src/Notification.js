@@ -1,6 +1,4 @@
-import React from 'react';
-import {ExclamationCircleOutlined, SmileOutlined} from '@ant-design/icons';
-import {Button, message, notification} from 'antd';
+import { notification} from 'antd';
 
 const openNotification = (type, message, description,placement) => {
     placement = placement ||'topRight'
