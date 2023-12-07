@@ -96,7 +96,7 @@ jobs:
           git commit -m "new app version: ${BUILD_NUMBER}"
           git push origin HEAD:master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: 8398a7/action-slack@v3
         with:
