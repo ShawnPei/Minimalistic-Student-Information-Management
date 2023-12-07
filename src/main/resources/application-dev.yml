@@ -4,11 +4,13 @@ spring:
     username: ebroot
     password: Pxy21818768!
   jpa:
+    properties:
+      hibernate:
+        format_sql: true
     hibernate:
-      dialect: org.hibernate.dialect.PostgreSQLDialect
-      format_sql: true
       ddl-auto: update
     show-sql: true
+
   config:
     activate:
       on-profile: dev
