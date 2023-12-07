@@ -22,6 +22,7 @@ env:
   EB_ENVIRONMENT_NAME: Minimalistic-student-information-env
   EB_APPLICATION_NAME: minimalistic-student-information-management
   EB_DEPLOYMENT_PACKAGE: elasticbeanstalk/docker-compose.yml
+  SPRING_PROFILES_ACTIVE: dev
 
 jobs:
   deploy:
