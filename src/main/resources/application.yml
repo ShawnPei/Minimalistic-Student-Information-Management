@@ -9,9 +9,6 @@ spring:
       format_sql: true
       ddl-auto: update
     show-sql: true
-  config:
-    activate:
-      on-profile: dev
   profiles:
     active: dev
 server:
