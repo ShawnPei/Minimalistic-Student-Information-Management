@@ -34,9 +34,9 @@ function StudentDrawerForm({showDrawer, setShowDrawer,fetchStudents}) {
                 )
             })
         }).finally(() => {
-                    setSubmitting(false);
-                }
-            )
+                setSubmitting(false);
+            }
+        )
     };
 
     const onFinishFailed = errorInfo => {
