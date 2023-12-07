@@ -89,8 +89,6 @@ jobs:
           git add elasticbeanstalk/docker-compose.yml
           git commit -m "new app version: ${BUILD_NUMBER}"
           git push
-        with:
-          distribution: 'adopt'
 
       - uses: 8398a7/action-slack@v3
         with:
