@@ -3,6 +3,8 @@ spring:
     url: jdbc:postgresql://awseb-e-iydnxpj8jh-stack-awsebrdsdatabase-naw92i4odgta.celhxsgqddme.us-east-1.rds.amazonaws.com:5432/shawnpei
     username: ebroot
     password: Pxy21818768!
+  profiles:
+    dev
   jpa:
     hibernate:
       dialect: org.hibernate.dialect.PostgreSQLDialect
