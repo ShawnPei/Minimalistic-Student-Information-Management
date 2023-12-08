@@ -1,5 +1,5 @@
 import './App.css';
-import {deleteStudent, getAllStudents, updateStudent} from "./client"; //for the getAllStudents function
+import {deleteStudent, getAllStudents} from "./client"; //for the getAllStudents function
 import {useEffect, useState} from 'react'; //prevent to show 2 times the same message
 
 //dependencies for the Layout
