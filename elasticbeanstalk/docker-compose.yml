@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   backend:
-    image: "shawnpei/minimalistic-student-information-management:8.12.2023.0.3.2"
+    image: "shawnpei/minimalistic-student-information-management:14.12.2023.23.25.17"
     ports:
       - "80:8080"
     restart: always
